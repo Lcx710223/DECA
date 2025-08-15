@@ -1,17 +1,14 @@
-#to install all this requirements
-#`pip install -r requirements.txt`
-numpy>=1.18.5
-scipy>=1.4.1 
-chumpy>=0.69
-scikit-image>=0.15 
-opencv-python>=4.1.1 
-scikit-image>=0.15     #skimage
-PyYAML==5.1.1         
-torch==1.6.0   # for compatible with pytorch3d
-torchvision==0.7.0
+# JULES20250815，CHUMPY和PYTORCH3D需要GIT+HTTPS方式安装。
+# 这些是基础依赖包，可以直接通过 pip 安装。
+# torch, torchvision, chumpy, 和 pytorch3d 已被移除，
+# 因为它们在 Google Colab 中需要特殊的安装方式。
+
+numpy
+scipy
+scikit-image
+opencv-python
+PyYAML
 face-alignment
-yacs==0.1.8
-kornia==0.4.0
+yacs
+kornia
 ninja
-fvcore
-# pytorch3d    
