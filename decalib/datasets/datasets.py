@@ -13,6 +13,8 @@
 # For comments or questions, please email us at deca@tue.mpg.de
 # For commercial licensing contact, please contact ps-license@tuebingen.mpg.de
 
+# JULES20250816，第49行，增加了DEVICES=='CUDA'参数。这是默认值，后面将检测和覆盖。
+
 import os, sys
 import torch
 from torch.utils.data import Dataset, DataLoader
@@ -46,7 +48,8 @@ def video2sequence(video_path, sample_step=10):
     return imagepath_list
 
 class TestData(Dataset):
-    def __init__(self, testpath, iscrop=True, crop_size=224, scale=1.25, face_detector='fan', sample_step=10):
+    ###JULES20250816增加了DEVICES=‘CUDA’，这是默认值，后面将覆盖。
+    def __init__(self, testpath, iscrop=True, crop_size=224, scale=1.25, face_detector='fan', sample_step=10, device='cuda'):
         '''
             testpath: folder, imagepath_list, image path, video path
         '''
@@ -68,7 +71,8 @@ class TestData(Dataset):
         self.iscrop = iscrop
         self.resolution_inp = crop_size
         if face_detector == 'fan':
-            self.face_detector = detectors.FAN()
+            # 将指定的device参数传递给FAN检测器
+            self.face_detector = detectors.FAN(device=device)
         # elif face_detector == 'mtcnn':
         #     self.face_detector = detectors.MTCNN()
         else:
