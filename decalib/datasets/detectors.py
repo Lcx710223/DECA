@@ -13,13 +13,16 @@
 # For comments or questions, please email us at deca@tue.mpg.de
 # For commercial licensing contact, please contact ps-license@tuebingen.mpg.de
 
+# JULES20250816，第24行FAN检测器需要明确指定设备, 否则face_alignment库会默认使用'cuda'。后面将检测和覆盖。
+
 import numpy as np
 import torch
 
 class FAN(object):
-    def __init__(self):
+    def __init__(self, device='cuda'):
         import face_alignment
-        self.model = face_alignment.FaceAlignment(face_alignment.LandmarksType.TWO_D, flip_input=False)  ###LCX20250816
+        # FAN检测器需要明确指定设备, 否则face_alignment库会默认使用'cuda'
+        self.model = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=False, device=device)
 
     def run(self, image):
         '''
