@@ -13,6 +13,8 @@
 # For comments or questions, please email us at deca@tue.mpg.de
 # For commercial licensing contact, please contact ps-license@tuebingen.mpg.de
 
+# JULES20250816 修改第42行，删掉GCC-7参数，以避免硬编码编译器版本，提高代码的可移植性。
+
 import numpy as np
 import torch
 import torch.nn as nn
@@ -38,7 +40,7 @@ def set_rasterizer(type = 'pytorch3d'):
         standard_rasterize_cuda = \
             load(name='standard_rasterize_cuda', 
                 sources=[f'{curr_dir}/rasterizer/standard_rasterize_cuda.cpp', f'{curr_dir}/rasterizer/standard_rasterize_cuda_kernel.cu'], 
-                extra_cuda_cflags = ['-std=c++14', '-ccbin=$$(which gcc-7)']) # cuda10.2 is not compatible with gcc9. Specify gcc 7 
+                extra_cuda_cflags = ['-std=c++14']) # JULES20250816:移除 -ccbin=$$(which gcc-7) 参数，以避免硬编码编译器版本，提高代码的可移植性。
         from standard_rasterize_cuda import standard_rasterize
         # If JIT does not work, try manually installation first
         # 1. see instruction here: pixielib/utils/rasterizer/INSTALL.md
