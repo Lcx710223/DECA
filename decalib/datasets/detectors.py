@@ -22,7 +22,7 @@ class FAN(object):
     def __init__(self, device='cuda'):
         import face_alignment
         # FAN检测器需要明确指定设备, 否则face_alignment库会默认使用'cuda'
-        self.model = face_alignment.FaceAlignment(face_alignment.LandmarksType._2D, flip_input=False, device=device)
+        self.model = face_alignment.FaceAlignment(face_alignment.LandmarksType.TWO_D, flip_input=False, device=device) ###LCX20250816:TWO_D
 
     def run(self, image):
         '''
