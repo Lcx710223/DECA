@@ -13,6 +13,8 @@
 # For comments or questions, please email us at deca@tue.mpg.de
 # For commercial licensing contact, please contact ps-license@tuebingen.mpg.de
 
+# JULES20250816，第42行：将命令行传入的device参数传递给TestData, 以确保面部检测器能在正确的设备上初始化
+
 import os, sys
 import cv2
 import numpy as np
@@ -37,7 +39,8 @@ def main(args):
     os.makedirs(savefolder, exist_ok=True)
 
     # load test images 
-    testdata = datasets.TestData(args.inputpath, iscrop=args.iscrop, face_detector=args.detector, sample_step=args.sample_step)
+    # 将命令行传入的device参数传递给TestData, 以确保面部检测器能在正确的设备上初始化
+    testdata = datasets.TestData(args.inputpath, iscrop=args.iscrop, face_detector=args.detector, sample_step=args.sample_step, device=args.device)
 
     # run DECA
     deca_cfg.model.use_tex = args.useTex
