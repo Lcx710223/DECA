@@ -92,7 +92,7 @@ class DECA(nn.Module):
             util.copy_state_dict(self.E_detail.state_dict(), checkpoint['E_detail'])
             util.copy_state_dict(self.D_detail.state_dict(), checkpoint['D_detail'])
         else:
-            print(f'please check model path: {model_path}')
+            print(f'LCX20250817没有找到模型：deca_model.tar。please check model path: {model_path}')
             # exit()
         # eval mode
         self.E_flame.eval()
