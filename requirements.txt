@@ -1,7 +1,5 @@
 # JULES20250815，CHUMPY和PYTORCH3D需要GIT+HTTPS方式安装。
-# 这些是基础依赖包，可以直接通过 pip 安装。
-# torch, torchvision, chumpy, 和 pytorch3d 已被移除，
-# 因为它们在 Google Colab 中需要特殊的安装方式。
+# 这些是基础依赖包，可以直接通过 pip 安装。# torch, torchvision, chumpy, 和 pytorch3d 已被移除，在 Google Colab 中需要特殊的安装方式。
 
 numpy
 scipy
