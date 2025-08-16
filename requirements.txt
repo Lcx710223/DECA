@@ -12,3 +12,4 @@ face-alignment
 yacs
 kornia
 ninja
+trimesh
