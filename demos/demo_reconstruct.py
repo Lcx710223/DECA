@@ -12,7 +12,7 @@
 #
 # For comments or questions, please email us at deca@tue.mpg.de
 # For commercial licensing contact, please contact ps-license@tuebingen.mpg.de
-
+# COPILOT20250818,57行：原版缺乏extract and save texture map时的处理函数。补充。
 # JULES20250816，第42行：将命令行传入的device参数传递给TestData, 以确保面部检测器能在正确的设备上初始化
 
 import os, sys
@@ -54,6 +54,13 @@ def main(args):
         with torch.no_grad():
             codedict = deca.encode(images)
             opdict, visdict = deca.decode(codedict) #tensor
+            # -- extract and save texture map  20250818，COPILOT：原版函数没有处理保存TEXTURE贴图为TRUE时的语句。
+            if args.extractTex and 'uv_texture' in opdict:
+              uv_texture = opdict['uv_texture'][0]  # shape: [3, H, W]
+              uv_texture_np = util.tensor2image(uv_texture)     # 转换为 NumPy 格式图像
+              tex_save_path = os.path.join(savefolder, name, name + '_tex.jpg')
+              cv2.imwrite(tex_save_path, uv_texture_np)         # 保存为 JPEG 文件
+
             if args.render_orig:
                 tform = testdata[i]['tform'][None, ...]
                 tform = torch.inverse(tform).transpose(1,2).to(device)
