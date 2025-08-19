@@ -1,6 +1,6 @@
-'''
-Default config for DECA
-'''
+### COPILOT20250819，训练，修改get-cfg-default等多项参数。
+
+
 from yacs.config import CfgNode as CN
 import argparse
 import yaml
@@ -10,11 +10,11 @@ cfg = CN()
 
 abs_deca_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 cfg.deca_dir = abs_deca_dir
-cfg.device = 'cuda'
+cfg.device = 'cpu'
 cfg.device_id = '0'
 
 cfg.pretrained_modelpath = os.path.join(cfg.deca_dir, 'data', 'deca_model.tar')
-cfg.output_dir = ''
+cfg.output_dir = 'OUTPUT3'
 cfg.rasterizer_type = 'pytorch3d'
 # ---------------------------------------------------------------------------- #
 # Options for Face model
@@ -52,12 +52,12 @@ cfg.model.max_z = 0.01
 # Options for Dataset
 # ---------------------------------------------------------------------------- #
 cfg.dataset = CN()
-cfg.dataset.training_data = ['vggface2', 'ethnicity']
+cfg.dataset.training_data = ['me']
 # cfg.dataset.training_data = ['ethnicity']
 cfg.dataset.eval_data = ['aflw2000']
 cfg.dataset.test_data = ['']
 cfg.dataset.batch_size = 2
-cfg.dataset.K = 4
+cfg.dataset.K = 1
 cfg.dataset.isSingle = False
 cfg.dataset.num_workers = 2
 cfg.dataset.image_size = 224
@@ -115,8 +115,87 @@ cfg.loss.reg_diff = 0.005
 
 def get_cfg_defaults():
     """Get a yacs CfgNode object with default values for my_project."""
-    # Return a clone so that the defaults will not be altered
-    # This is for the "local variable" use pattern
+    cfg = CN()
+
+    # 注册 dataset 配置结构
+    cfg.dataset = CN()
+    cfg.dataset.training_data = ['me']
+    cfg.dataset.data_root = ''
+    cfg.dataset.image_size = 224
+    cfg.dataset.K = 1
+    cfg.dataset.isSingle = True
+
+    # 注册其他模块字段（如 model, train, loss 等）
+    cfg.model = CN()
+    cfg.model.use_detail = False  # 注册字段，允许 YAML 中覆盖
+    cfg.model.use_landmarks = True  # 注册字段
+    cfg.model.extract_tex = True
+    cfg.model.use_seg = True
+    cfg.model.use_pose = False
+    cfg.model.use_tex = True
+    cfg.model.tex_type = 'BFM'
+    cfg.model.extract_tex = True
+    cfg.model.uv_size = 256
+    cfg.model.n_shape = 100
+    cfg.model.n_tex = 50
+    cfg.model.n_exp = 50
+    cfg.model.n_pose = 6
+    cfg.model.n_cam = 3
+    cfg.model.n_light = 27
+    cfg.model.n_detail = 128  # 或其他你希望的维度值
+    cfg.model.param_list = ['shape', 'tex', 'exp', 'pose', 'cam', 'light', 'detail']
+    cfg.model.flame_model_path = "data/generic_model.pkl"
+    cfg.model.flame_lmk_embedding_path = "data/landmark_embedding.npy"
+    cfg.model.tex_path = "data/FLAME_albedo_from_BFM.npz"
+    cfg.model.max_z = 0.25
+    cfg.model.topology_path = "data/head_template.obj"
+    cfg.model.face_eye_mask_path = "data/uv_face_eye_mask.png"
+    cfg.model.face_mask_path = "data/uv_face_mask.png"
+    cfg.model.fixed_displacement_path = "data/fixed_displacement_256.npy"
+    cfg.model.mean_tex_path = "data/mean_texture.jpg"
+
+    cfg.train = CN()
+    cfg.train.batch_size = 1
+    cfg.train.num_workers = 0
+    cfg.train.max_epochs = 50
+    cfg.train.save_folder = ''
+    cfg.train.log_freq = 10
+    cfg.train.eval_freq = 1
+    cfg.train.save_freq = 5
+    cfg.train.log_dir = 'logs'  # 注册字段
+    cfg.train.vis_dir = "vis_me"
+    cfg.train.val_vis_dir = "val_vis_me"
+
+
+    cfg.loss = CN()
+    cfg.loss.landmark_weight = 1.0
+    cfg.loss.mask_weight = 1.0
+    cfg.loss.tex_weight = 1.0
+    cfg.loss.shape_weight = 0.0
+    cfg.loss.detail_weight = 0.0
+
+    cfg.device = 'cpu'
+    cfg.output_dir = "/content/DECA"  # 注册字段
+    cfg.pretrained_modelpath = "data/deca_model.tar"
+
+
+    cfg.misc = CN()
+    cfg.misc.use_vis = True
+    cfg.misc.save_images = True
+    cfg.misc.save_obj = True
+    cfg.misc.save_mat = True
+    cfg.misc.save_depth = True
+    cfg.misc.save_kpt = True
+    cfg.misc.rasterizer_type = 'pytorch3d'
+
+    cfg.module_registry = CN()
+    cfg.module_registry.name = ''
+    cfg.module_registry.version = ''
+    cfg.module_registry.author = ''
+    cfg.module_registry.format = ''
+
+
+    # 返回副本，避免污染原始结构
     return cfg.clone()
 
 def update_cfg(cfg, cfg_file):
