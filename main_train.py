@@ -1,5 +1,5 @@
-''' training script of DECA
-'''
+### COLPILOT20250819 45行，强制使用CPU。
+
 import os, sys
 import numpy as np
 import yaml
@@ -8,6 +8,7 @@ import torch.backends.cudnn as cudnn
 import torch
 import shutil
 from copy import deepcopy
+from pprint import pprint
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
 np.random.seed(0)
@@ -31,6 +32,7 @@ def main(cfg):
     from decalib.deca import DECA
     from decalib.trainer import Trainer
     cfg.rasterizer_type = 'pytorch3d'
+    cfg.device = 'cpu'
     deca = DECA(cfg)
     trainer = Trainer(model=deca, config=cfg)
 
@@ -40,9 +42,12 @@ def main(cfg):
 if __name__ == '__main__':
     from decalib.utils.config import parse_args
     cfg = parse_args()
+    cfg.model.device = 'cpu'  # 强制使用 CPU COPILOT20250819
     if cfg.cfg_file is not None:
         exp_name = cfg.cfg_file.split('/')[-1].split('.')[0]
         cfg.exp_name = exp_name
+
+    pprint(cfg)
     main(cfg)
 
 # run:
