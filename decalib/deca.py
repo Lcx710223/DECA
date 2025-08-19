@@ -1,17 +1,4 @@
-# -*- coding: utf-8 -*-
-# Max-Planck-Gesellschaft zur Förderung der Wissenschaften e.V. (MPG) is
-# holder of all proprietary rights on this computer program.
-# Using this computer program means that you agree to the terms 
-# in the LICENSE file included with this software distribution. 
-# Any use not explicitly granted by the LICENSE is prohibited.
-#
-# Copyright©2019 Max-Planck-Gesellschaft zur Förderung
-# der Wissenschaften e.V. (MPG). acting on behalf of its Max Planck Institute
-# for Intelligent Systems. All rights reserved.
-#
-# For comments or questions, please email us at deca@tue.mpg.de
-# For commercial licensing contact, please contact ps-license@tuebingen.mpg.de
-# COPILOT20250819，第90行，检测CPU/GPU兼容性。
+### COPILOT20250819,77行，检测GPU/CPU兼容。20250819COPILOT.
 
 import os, sys
 import torch
@@ -36,7 +23,7 @@ from .utils.config import cfg
 torch.backends.cudnn.benchmark = True
 
 class DECA(nn.Module):
-    def __init__(self, config=None, device='cuda'):
+    def __init__(self, config=None, device='cpu'):
         super(DECA, self).__init__()
         if config is None:
             self.cfg = cfg
