@@ -1,4 +1,5 @@
 ### COPILOT20250819,77行，检测GPU/CPU兼容。20250819COPILOT.
+### JULES20250823,292，296,save_obj()方法，CPU模式。
 
 import os, sys
 import torch
@@ -287,11 +288,15 @@ class DECA(nn.Module):
         i = 0
         vertices = opdict['verts'][i].cpu().numpy()
         faces = self.render.faces[0].cpu().numpy()
-        texture = util.tensor2image(opdict['uv_texture_gt'][i])
+        ### JULES20250823,下面是CPU模式。texture = util.tensor2image(opdict['uv_texture_gt'][i])
+        texture = util.tensor2image(opdict['uv_texture_gt'][i].cpu())
         uvcoords = self.render.raw_uvcoords[0].cpu().numpy()
         uvfaces = self.render.uvfaces[0].cpu().numpy()
         # save coarse mesh, with texture and normal map
-        normal_map = util.tensor2image(opdict['uv_detail_normals'][i]*0.5 + 0.5)
+        ### JULES20250823,下面是CPU模式：normal_map = util.tensor2image(opdict['uv_detail_normals'][i]*0.5 + 0.5)
+        normal_map_tensor = opdict['uv_detail_normals'][i] * 0.5 + 0.5
+        normal_map = util.tensor2image(normal_map_tensor.cpu())
+
         util.write_obj(filename, vertices, faces, 
                         texture=texture, 
                         uvcoords=uvcoords, 
