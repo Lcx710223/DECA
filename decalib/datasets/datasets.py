@@ -68,6 +68,7 @@ class TestData(Dataset):
         self.iscrop = iscrop
         self.resolution_inp = crop_size
         if face_detector == 'fan':
+            ### LCX251020在此调用扫描器，在DETOCTORS.PY里修改CPU/GPU兼容性。
             self.face_detector = detectors.FAN()
         # elif face_detector == 'mtcnn':
         #     self.face_detector = detectors.MTCNN()
