@@ -43,7 +43,8 @@ cfg.model.use_tex = True
 cfg.model.jaw_type = 'aa' # default use axis angle, another option: euler. Note that: aa is not stable in the beginning
 # face recognition model
 cfg.model.fr_model_path = os.path.join(cfg.deca_dir, 'data', 'resnet50_ft_weight.pkl')
-
+### LCX251020,预训练模型的路径：
+cfg.model.model_path = os.path.join(cfg.deca_dir, 'data', 'deca_model.tar')
 ## details
 cfg.model.n_detail = 128
 cfg.model.max_z = 0.01
