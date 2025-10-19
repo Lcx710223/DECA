@@ -82,11 +82,12 @@ class DECA(nn.Module):
         if model_cfg.use_tex:
             self.flametex = FLAMETex(model_cfg).to(self.device)
         self.D_detail = Generator(latent_dim=self.n_detail+self.n_cond, out_channels=1, out_scale=model_cfg.max_z, sample_mode = 'bilinear').to(self.device)
-        # resume model
-        model_path = self.cfg.pretrained_modelpath
+        # resume model。 LCX251020修改预训练模型的加载路径以及CPU/GPU之兼容。
+        model_path = model_cfg.get('model_path')
         if os.path.exists(model_path):
             print(f'trained model found. load {model_path}')
-            checkpoint = torch.load(model_path)
+            map_location = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+            checkpoint = torch.load(model_path, map_location=map_location)
             self.checkpoint = checkpoint
             util.copy_state_dict(self.E_flame.state_dict(), checkpoint['E_flame'])
             util.copy_state_dict(self.E_detail.state_dict(), checkpoint['E_detail'])
