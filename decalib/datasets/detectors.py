@@ -22,7 +22,7 @@ class FAN(object):
         ### LCX251020修改兼容性：CPU/GPU
         if device is None:
             device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        self.model = face_alignment.FaceAlignment(face_alignment.LandmarksType.TOW_D, flip_input=False, device=device)
+        self.model = face_alignment.FaceAlignment(face_alignment.LandmarksType.TWO_D, flip_input=False, device=device)
 
     def run(self, image):
         '''
